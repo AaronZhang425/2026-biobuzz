@@ -4,12 +4,13 @@ import android.os.Environment;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
-
 
 @TeleOp(name = "AutoConfigurator")
 public class ConfigurationUi extends OpMode {
-    private static final String DIRECTORY = (
+    private static final String PATH = (
             Environment.getExternalStorageDirectory().getAbsolutePath() + "/ftc/"
     );
 
@@ -18,7 +19,29 @@ public class ConfigurationUi extends OpMode {
     static {
 //        configs.put(AllianceColor.class, null);
     }
+
     public ConfigurationUi() {
+        
+
+    }
+
+    private static boolean deleteConfig() {
+
+    }
+
+    private static boolean saveConfig() {
+    
+
+    }
+
+    private static boolean loadConfig() throws IOException {
+        FileOutputStream file = new FileInputStream(PATH);
+        ObjectInputStream configStreamOut = new ObjectInputStream(file);
+
+        configStreamOut.writeObject(configs);
+        
+        configStreamOut.close();
+        file.close();
 
     }
 
