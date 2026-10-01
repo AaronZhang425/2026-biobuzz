@@ -138,11 +138,14 @@ public class MecanumWheels extends Wheels {
 
         @Override
         public boolean isValid() {
-            return super.isValid()
-                   && frontLeftMotor != null
-                   && frontRightMotor != null
-                   && backLeftMotor != null
-                   && backRightMotor != null;
+            return (
+                super.isValid()
+                && frontLeftMotor != null
+                && frontRightMotor != null
+                && backLeftMotor != null
+                && backRightMotor != null
+            );
+
         }
 
         /**
@@ -157,7 +160,9 @@ public class MecanumWheels extends Wheels {
         @Override
         public MecanumWheels build() {
             return isValid() ? new MecanumWheels(this) : null;
+
         }
+
     }
 
     /**
@@ -283,6 +288,7 @@ public class MecanumWheels extends Wheels {
                 Math.abs(backRightPower)
             )
         );
+
         if (maxMagnitude > MAX_MOTOR_POWER) {
             frontLeftPower /= maxMagnitude;
             frontRightPower /= maxMagnitude;
@@ -294,6 +300,7 @@ public class MecanumWheels extends Wheels {
         FRONT_RIGHT_MOTOR.setPower(frontRightPower);
         BACK_LEFT_MOTOR.setPower(backLeftPower);
         BACK_RIGHT_MOTOR.setPower(backRightPower);
+
     }
 
     /**
@@ -371,6 +378,7 @@ public class MecanumWheels extends Wheels {
             Math.pow(LATERAL_DISTANCE, 2)
             + Math.pow(LONGITUDINAL_DISTANCE, 2)
         );
+
         double circumference = diameter * Math.PI;
 
         // How far the wheels have to move.
@@ -381,24 +389,32 @@ public class MecanumWheels extends Wheels {
         FRONT_LEFT_MOTOR.setTargetPosition(
             FRONT_LEFT_MOTOR.getCurrentPosition() - ticks
         );
+
         FRONT_LEFT_MOTOR.setPower(-MAX_MOTOR_POWER);
+        
         BACK_LEFT_MOTOR.setTargetPosition(
             BACK_LEFT_MOTOR.getCurrentPosition() - ticks
         );
+        
         BACK_LEFT_MOTOR.setPower(-MAX_MOTOR_POWER);
 
         // Right wheels
         FRONT_RIGHT_MOTOR.setTargetPosition(
             FRONT_RIGHT_MOTOR.getCurrentPosition() + ticks
         );
+        
         FRONT_RIGHT_MOTOR.setPower(MAX_MOTOR_POWER);
+        
         BACK_RIGHT_MOTOR.setTargetPosition(
             BACK_RIGHT_MOTOR.getCurrentPosition() + ticks
         );
+        
         BACK_RIGHT_MOTOR.setPower(MAX_MOTOR_POWER);
 
         for (DcMotor motor : MOTORS) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            
         }
+
     }
 }

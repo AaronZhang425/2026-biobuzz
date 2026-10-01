@@ -36,7 +36,7 @@ public class CustomLinearOp extends LinearOpMode {
      * TODO: By default, the class is set to {@link Wheels}. Replace as
      *  necessary.
      */
-    protected Wheels WHEELS;
+    protected MecanumWheels WHEELS;
 
     /**
      * Use for RoadRunner.
@@ -210,52 +210,27 @@ public class CustomLinearOp extends LinearOpMode {
          * inch are approximate; tune them for your specific robot.
          */
         try {
-
             // Stick to a single well established naming convention to avoid looping through the hardware map
 
-            DcMotor frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-            DcMotor frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-            DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-            DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+            DcMotor frontLeftMotor = hardwareMap.get(
+                DcMotor.class,
+                "frontLeftMotor"
+            );
 
+            DcMotor frontRightMotor = hardwareMap.get(
+                DcMotor.class,
+                "frontRightMotor"
+            );
 
-//            ORIGINAL CODE FROM TEMPLATE
-            /*
-             * Acquire each of the four drive motors. To be tolerant of
-             * different naming conventions in the Robot Controller config,
-             * we attempt to fetch several candidate names for each motor.
-             * Update the candidate lists if your team uses different
-             * names (for example, "frontLeft", "lf", "leftFront", etc.).
-             */
+            DcMotor backLeftMotor = hardwareMap.get(
+                DcMotor.class,
+                "backLeftMotor"
+            );
 
-//            DcMotor frontLeftMotor = pickMotor(
-//                "frontLeftWheel",
-//                "frontLeftMotor",
-//                "frontLeft",
-//                "lf",
-//                "leftFront"
-//            );
-//            DcMotor frontRightMotor = pickMotor(
-//                "frontRightWheel",
-//                "frontRightMotor",
-//                "frontRight",
-//                "rf",
-//                "rightFront"
-//            );
-//            DcMotor backLeftMotor = pickMotor(
-//                "backLeftWheel",
-//                "backLeftMotor",
-//                "backLeft",
-//                "lb",
-//                "leftBack"
-//            );
-//            DcMotor backRightMotor = pickMotor(
-//                "backRightWheel",
-//                "backRightMotor",
-//                "backRight",
-//                "rb",
-//                "rightBack"
-//            );
+            DcMotor backRightMotor = hardwareMap.get(
+                DcMotor.class,
+                "backRightMotor"
+            );
 
             // Approximate measurements from the CAD model (in inches).
             // The wheel circumference is 4 inches in diameter multiplied by π.
@@ -288,8 +263,10 @@ public class CustomLinearOp extends LinearOpMode {
              * avoids a null pointer exception later on. Leave WHEELS as null
              *  to signal an initialization failure.
              */
-            telemetry.addLine("ERROR: Failed to initialize wheels: \n"
-                              + e.getMessage());
+            telemetry.addLine(
+                "ERROR: Failed to initialize wheels: \n" + e.getMessage()
+            );
+
         }
 
         /*
@@ -302,6 +279,7 @@ public class CustomLinearOp extends LinearOpMode {
             hardwareMap,
             new Pose2d(0.0, 0.0, 0.0)
         );
+
     }
 
     /**
@@ -323,6 +301,7 @@ public class CustomLinearOp extends LinearOpMode {
          *  for reference.
          */
         ARM = new Arm.Builder().build();
+
     }
 
     /**
@@ -344,6 +323,7 @@ public class CustomLinearOp extends LinearOpMode {
          *  for reference.
          */
         CLAW = new Claw.Builder().build();
+
     }
 
     /**
@@ -366,6 +346,7 @@ public class CustomLinearOp extends LinearOpMode {
             ? Webcam.Color.RED :
             Webcam.Color.BLUE;
         WEBCAM.setTargetColor(color);
+
     }
 
     /**
@@ -417,13 +398,14 @@ public class CustomLinearOp extends LinearOpMode {
     public void runOpMode() {
         autoSleepEnabled = true;
 
-        AUTO_CONFIG = AutoConfigurator.parseConfigFile();
-        telemetry.addData(
-            "Starting position",
-            AUTO_CONFIG.getAllianceColor()
-            + ", "
-            + AUTO_CONFIG.getAllianceSide().name()
-        );
+        // AUTO_CONFIG = AutoConfigurator.parseConfigFile();
+
+        // telemetry.addData(
+        //     "Starting position",
+        //     AUTO_CONFIG.getAllianceColor()
+        //     + ", "
+        //     + AUTO_CONFIG.getAllianceSide().name()
+        // );
 
         initWheels();
         initArm();
@@ -433,17 +415,20 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * TODO: Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources()
-                                                        .getIdentifier(
-                                                            "cameraMonitorViewId",
-                                                            "id",
-                                                            hardwareMap.appContext.getPackageName()
-                                                        );
+        int cameraMonitorViewId = (
+            hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId",
+                "id",
+                hardwareMap.appContext.getPackageName()
+            )
+        );
+
         initWebcam(cameraMonitorViewId);
 
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
         telemetry.update();
 
         waitForStart();
+
     }
 }
