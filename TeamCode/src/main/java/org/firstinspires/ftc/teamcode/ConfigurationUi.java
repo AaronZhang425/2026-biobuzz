@@ -11,25 +11,21 @@ import java.util.HashMap;
 @TeleOp(name = "AutoConfigurator")
 public class ConfigurationUi extends OpMode {
     private static final String PATH = (
-            Environment.getExternalStorageDirectory().getAbsolutePath() + "/ftc/"
+        Environment.getExternalStorageDirectory().getAbsolutePath() + "/ftc/"
     );
 
-    private static HashMap<Class<? extends BaseConfig>, ? extends BaseConfig> configs = new HashMap<>();
-
-    static {
-//        configs.put(AllianceColor.class, null);
-    }
-
-    public ConfigurationUi() {
-        
-
-    }
+    private static HashMap<Class<? extends BaseConfig>, ? extends BaseConfig> configs = (
+        new HashMap<>()
+    );
 
     private static boolean deleteConfig() {
+        File file = new File(PATH);
+
+        return file.delete();
 
     }
 
-    private static boolean saveConfig() {
+    private static boolean saveConfig() throws IOException {
         FileOutputStream file = new FileInputStream(PATH);
         ObjectInputStream configStreamOut = new ObjectInputStream(file);
 
@@ -40,14 +36,19 @@ public class ConfigurationUi extends OpMode {
     
     }
 
-    private static boolean loadConfig() throws IOException {
+    private static boolean loadConfig() throws IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream(PATH);
+        ObjectInputStream configStreamIn = new ObjectInputStream(file);
+   
+        configs = (HashMap<Class<? extends BaseConfig>, ? extends BaseConfig>) in.readObject();
+   
+        configStreamIn.close();
+        file.close();
 
     }
 
     public static BaseConfig readConfigs(Class<BaseConfig> configClass) {
-
-
-        return null;
+        return configs.get(configClass);
 
     }
 

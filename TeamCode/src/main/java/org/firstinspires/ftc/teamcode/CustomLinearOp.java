@@ -422,17 +422,20 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * TODO: Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources()
-                                                        .getIdentifier(
-                                                            "cameraMonitorViewId",
-                                                            "id",
-                                                            hardwareMap.appContext.getPackageName()
-                                                        );
+        int cameraMonitorViewId = (
+            hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId",
+                "id",
+                hardwareMap.appContext.getPackageName()
+            )
+        );
+
         initWebcam(cameraMonitorViewId);
 
         telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
         telemetry.update();
 
         waitForStart();
+        
     }
 }
