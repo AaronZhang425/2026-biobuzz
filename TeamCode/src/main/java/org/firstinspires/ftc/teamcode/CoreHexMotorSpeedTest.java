@@ -62,8 +62,10 @@ public class CoreHexMotorSpeedTest extends LinearOpMode {
          */
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry.addLine("Press start to run the Core Hex motor at full " +
-                "speed.");
+        telemetry.addLine(
+            "Press start to run the Core Hex motor at full speed."
+        );
+        
         telemetry.update();
         waitForStart();
 

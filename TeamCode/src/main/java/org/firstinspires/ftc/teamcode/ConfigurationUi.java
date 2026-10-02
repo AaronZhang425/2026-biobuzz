@@ -30,11 +30,6 @@ public class ConfigurationUi extends OpMode {
     }
 
     private static boolean saveConfig() {
-    
-
-    }
-
-    private static boolean loadConfig() throws IOException {
         FileOutputStream file = new FileInputStream(PATH);
         ObjectInputStream configStreamOut = new ObjectInputStream(file);
 
@@ -42,6 +37,10 @@ public class ConfigurationUi extends OpMode {
         
         configStreamOut.close();
         file.close();
+    
+    }
+
+    private static boolean loadConfig() throws IOException {
 
     }
 
