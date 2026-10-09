@@ -247,33 +247,38 @@ public class DriverMode extends CustomLinearOp {
     public void runOpMode() {
         super.runOpMode();
 
-        if (cameraStreamEnabled) {
-            FtcDashboard.getInstance().startCameraStream(WEBCAM.getVisionPortal(), 0);
+//        if (cameraStreamEnabled) {
+//            FtcDashboard.getInstance().startCameraStream(WEBCAM.getVisionPortal(), 0);
+//
+//        }
+//
+//        boolean toggleBtn = gamepad2.dpad_up;
+//
+//        if (toggleBtn && !lastToggleBtn) {
+//            cameraStreamEnabled = !cameraStreamEnabled;
+//
+//            if (cameraStreamEnabled) {
+//                FtcDashboard.getInstance().startCameraStream(WEBCAM.getVisionPortal(), 0);
+//
+//            } else {
+//                FtcDashboard.getInstance().stopCameraStream();
+//
+//            }
+//
+//        }
 
-        }
-
-        boolean toggleBtn = gamepad2.dpad_up;
-
-        if (toggleBtn && !lastToggleBtn) {
-            cameraStreamEnabled = !cameraStreamEnabled;
-
-            if (cameraStreamEnabled) {
-                FtcDashboard.getInstance().startCameraStream(WEBCAM.getVisionPortal(), 0);
-
-            } else {
-                FtcDashboard.getInstance().stopCameraStream();
-
-            }
-
-        }
-
-        lastToggleBtn = toggleBtn;
+//        lastToggleBtn = toggleBtn;
 
         calibrateOffsets();
 
+        telemetry.addLine("Sanity check");
+        telemetry.update();
+
         while (opModeIsActive()) {
             try {
-                runTimeLoop();
+                telemetry.addLine("Sanity check for Opmode activity");
+                telemetry.update();
+                startRuntimeLoop();
 
             } catch (Exception exception) {
                 telemetry.addLine("\nWARNING AN ERROR OCCURRED!!!");
@@ -286,7 +291,7 @@ public class DriverMode extends CustomLinearOp {
     /**
      * Run the loop once.
      */
-    private void runTimeLoop() {
+    private void startRuntimeLoop() {
         /* Gamepad 1 (Wheel and Webcam Controls) */
 
         /* Wheel Controls */
@@ -304,8 +309,18 @@ public class DriverMode extends CustomLinearOp {
          * center. By writing zero to each motor directly, we avoid any
          * lingering motion from previous commands.
          */
-        if (
-            result.vertical == 0.0
+        telemetry.addLine(
+  "Vert: " + result.vertical
+            + ", Horizontal: "
+            + result.horizontal
+            + ", pivot: " + result.pivot
+        );
+
+        telemetry.addLine(WHEELS.toString());
+
+        telemetry.update();
+
+        if (result.vertical == 0.0
             && result.horizontal == 0.0
             && result.pivot == 0.0
         ) {
