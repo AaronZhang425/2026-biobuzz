@@ -36,7 +36,7 @@ public class CustomLinearOp extends LinearOpMode {
      * TODO: By default, the class is set to {@link Wheels}. Replace as
      *  necessary.
      */
-    protected Wheels WHEELS;
+    protected MecanumWheels WHEELS;
 
     /**
      * Use for RoadRunner.
@@ -121,15 +121,19 @@ public class CustomLinearOp extends LinearOpMode {
         // Loop through each DeviceMapping (e.g., Servos and DcMotors).
         for (HardwareMap.DeviceMapping<? extends HardwareDevice> deviceMapping : hardwareMap.allDeviceMappings) {
             // Check if each device in the mapping is null.
-            for (Map.Entry<String, ? extends HardwareDevice> hardwareDevice :
-                deviceMapping.entrySet()) {
+            for (
+                Map.Entry<String, ? extends HardwareDevice> hardwareDevice :
+                deviceMapping.entrySet()
+            ) {
                 if (hardwareDevice.getValue() == null) {
                     missingHardwareDevices.add(hardwareDevice.getKey());
                 }
+
             }
         }
 
         return missingHardwareDevices;
+
     }
 
     /**
@@ -213,10 +217,23 @@ public class CustomLinearOp extends LinearOpMode {
 
             // Stick to a single well established naming convention to avoid looping through the hardware map
 
-            DcMotor frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-            DcMotor frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-            DcMotor backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-            DcMotor backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
+            DcMotor frontLeftMotor = hardwareMap.get(
+                DcMotor.class,
+                "frontLeftMotor"
+            );
+
+            DcMotor frontRightMotor = hardwareMap.get(
+                DcMotor.class,
+                "frontRightMotor");
+            DcMotor backLeftMotor = hardwareMap.get(
+                DcMotor.class,
+                "backLeftMotor"
+            );
+
+            DcMotor backRightMotor = hardwareMap.get(
+                DcMotor.class,
+                "backRightMotor"
+            );
 
 
 //            ORIGINAL CODE FROM TEMPLATE
@@ -228,46 +245,19 @@ public class CustomLinearOp extends LinearOpMode {
              * names (for example, "frontLeft", "lf", "leftFront", etc.).
              */
 
-//            DcMotor frontLeftMotor = pickMotor(
-//                "frontLeftWheel",
-//                "frontLeftMotor",
-//                "frontLeft",
-//                "lf",
-//                "leftFront"
-//            );
-//            DcMotor frontRightMotor = pickMotor(
-//                "frontRightWheel",
-//                "frontRightMotor",
-//                "frontRight",
-//                "rf",
-//                "rightFront"
-//            );
-//            DcMotor backLeftMotor = pickMotor(
-//                "backLeftWheel",
-//                "backLeftMotor",
-//                "backLeft",
-//                "lb",
-//                "leftBack"
-//            );
-//            DcMotor backRightMotor = pickMotor(
-//                "backRightWheel",
-//                "backRightMotor",
-//                "backRight",
-//                "rb",
-//                "rightBack"
-//            );
-
             // Approximate measurements from the CAD model (in inches).
             // The wheel circumference is 4 inches in diameter multiplied by π.
             double wheelCircumference = 4.0 * Math.PI;
             double gearRatio = 1.0;
             // TODO: Change the motor type as necessary.
-            double ticksPerInch = frontLeftMotor.getMotorType().getTicksPerRev()
-                                  * gearRatio / wheelCircumference;
+            double ticksPerInch = (
+                frontLeftMotor.getMotorType().getTicksPerRev()
+                * gearRatio
+                / wheelCircumference
+            );
 
 
-            // TODO: Replace with the necessary constructor.
-            WHEELS = new MecanumWheels.Builder()
+            MecanumWheels.Builder builder = new MecanumWheels.Builder()
                 // TODO: Approximate distances between wheels. Adjust as
                 //  necessary if your robot's chassis dimensions differ.
                 .setLateralWheelDistance(8.5)
@@ -278,8 +268,13 @@ public class CustomLinearOp extends LinearOpMode {
                 .setFrontLeftMotor(frontLeftMotor)
                 .setFrontRightMotor(frontRightMotor)
                 .setBackLeftMotor(backLeftMotor)
-                .setBackRightMotor(backRightMotor)
-                .build();
+                .setBackRightMotor(backRightMotor);
+
+            // Currently reports false
+            telemetry.addLine("Is valid: " + builder.isValid());
+
+            // TODO: Replace with the necessary constructor.
+            WHEELS = builder.build();
 
         } catch (Exception e) {
             /*
@@ -298,10 +293,10 @@ public class CustomLinearOp extends LinearOpMode {
          * TODO: If your autonomous program uses a different starting pose,
          *  modify the pose here accordingly.
          */
-        MECANUM_DRIVE = new MecanumDrive(
-            hardwareMap,
-            new Pose2d(0.0, 0.0, 0.0)
-        );
+//        MECANUM_DRIVE = new MecanumDrive(
+//            hardwareMap,
+//            new Pose2d(0.0, 0.0, 0.0)
+//        );
     }
 
     /**
@@ -322,7 +317,7 @@ public class CustomLinearOp extends LinearOpMode {
          *  You might want to look at the class and code from previous years
          *  for reference.
          */
-        ARM = new Arm.Builder().build();
+//        ARM = new Arm.Builder().build();
     }
 
     /**
@@ -343,7 +338,7 @@ public class CustomLinearOp extends LinearOpMode {
          *  You might want to look at the class and code from previous years
          *  for reference.
          */
-        CLAW = new Claw.Builder().build();
+//        CLAW = new Claw.Builder().build();
     }
 
     /**
@@ -417,13 +412,13 @@ public class CustomLinearOp extends LinearOpMode {
     public void runOpMode() {
         autoSleepEnabled = true;
 
-        AUTO_CONFIG = AutoConfigurator.parseConfigFile();
-        telemetry.addData(
-            "Starting position",
-            AUTO_CONFIG.getAllianceColor()
-            + ", "
-            + AUTO_CONFIG.getAllianceSide().name()
-        );
+//        AUTO_CONFIG = AutoConfigurator.parseConfigFile();
+//        telemetry.addData(
+//            "Starting position",
+//            AUTO_CONFIG.getAllianceColor()
+//            + ", "
+//            + AUTO_CONFIG.getAllianceSide().name()
+//        );
 
         initWheels();
         initArm();
@@ -433,17 +428,18 @@ public class CustomLinearOp extends LinearOpMode {
          * Get camera ID to stream.
          * TODO: Currently not working.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources()
-                                                        .getIdentifier(
-                                                            "cameraMonitorViewId",
-                                                            "id",
-                                                            hardwareMap.appContext.getPackageName()
-                                                        );
-        initWebcam(cameraMonitorViewId);
-
-        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources()
+//                                                        .getIdentifier(
+//                                                            "cameraMonitorViewId",
+//                                                            "id",
+//                                                            hardwareMap.appContext.getPackageName()
+//                                                        );
+//        initWebcam(cameraMonitorViewId);
+//
+//        telemetry.addData("cameraMonitorViewId", cameraMonitorViewId);
         telemetry.update();
 
         waitForStart();
+
     }
 }
