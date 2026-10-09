@@ -175,10 +175,11 @@ public class DriverMode extends CustomLinearOp {
         // minus left trigger (ZL). Subtract horizontalOffset measured during
         // init. Positive values strafe right, negative values strafe left.
         double rawHorizontal = gamepad1.right_trigger - gamepad1.left_trigger;
+        
         double correctedHorizontal = (
-                                         gamepad1.right_trigger
-                                         - gamepad1.left_trigger
-                                     ) - horizontalOffset;
+            (gamepad1.right_trigger - gamepad1.left_trigger)
+            - horizontalOffset
+        );
 
         double rawVertical = -gamepad1.right_stick_y;
         double correctedVertical = -gamepad1.right_stick_y - verticalOffset;
@@ -192,11 +193,17 @@ public class DriverMode extends CustomLinearOp {
         // Apply deadband to each input to eliminate small stick drift and
         // unintended motion.
         // Scale the inputs by the driving sensitivity.
-        double horizontal = applyDeadband(correctedHorizontal)
-                            * DRIVING_SENSITIVITY;
-        double vertical = applyDeadband(correctedVertical)
-                          * DRIVING_SENSITIVITY;
-        double pivot = applyDeadband(correctedPivot) * DRIVING_SENSITIVITY;
+        double horizontal = (
+            applyDeadband(correctedHorizontal) * DRIVING_SENSITIVITY
+        );
+
+        double vertical = (
+            applyDeadband(correctedVertical) * DRIVING_SENSITIVITY
+        );
+
+        double pivot = (
+            applyDeadband(correctedPivot) * DRIVING_SENSITIVITY
+        );
 
         // It is unlikely to cause issues, but for safety, clamp each value.
         horizontal = clamp(horizontal, -1.0, 1.0);
@@ -271,7 +278,7 @@ public class DriverMode extends CustomLinearOp {
             try {
                 telemetry.addLine("Sanity check for Opmode activity");
                 telemetry.update();
-                runLoop();
+                startRuntimeLoop();
 
             } catch (Exception exception) {
                 telemetry.addLine("\nWARNING AN ERROR OCCURRED!!!");
@@ -284,7 +291,7 @@ public class DriverMode extends CustomLinearOp {
     /**
      * Run the loop once.
      */
-    private void runLoop() {
+    private void startRuntimeLoop() {
         /* Gamepad 1 (Wheel and Webcam Controls) */
 
         /* Wheel Controls */
@@ -322,12 +329,10 @@ public class DriverMode extends CustomLinearOp {
 
             } else if (MECANUM_DRIVE != null) {
                 // For RoadRunner fallback, send zero drive powers.
-                MECANUM_DRIVE.setDrivePowers(new PoseVelocity2d(
-                    new Vector2d(
-                        0,
-                        0
-                    ), 0
-                ));
+                MECANUM_DRIVE.setDrivePowers(
+                    new PoseVelocity2d(new Vector2d(0, 0), 0)
+                );
+                
             }
 
         } else {

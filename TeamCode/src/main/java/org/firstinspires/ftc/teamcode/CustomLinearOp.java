@@ -214,7 +214,6 @@ public class CustomLinearOp extends LinearOpMode {
          * inch are approximate; tune them for your specific robot.
          */
         try {
-
             // Stick to a single well established naming convention to avoid looping through the hardware map
 
             DcMotor frontLeftMotor = hardwareMap.get(
@@ -224,7 +223,9 @@ public class CustomLinearOp extends LinearOpMode {
 
             DcMotor frontRightMotor = hardwareMap.get(
                 DcMotor.class,
-                "frontRightMotor");
+                "frontRightMotor"
+            );
+
             DcMotor backLeftMotor = hardwareMap.get(
                 DcMotor.class,
                 "backLeftMotor"
@@ -234,16 +235,6 @@ public class CustomLinearOp extends LinearOpMode {
                 DcMotor.class,
                 "backRightMotor"
             );
-
-
-//            ORIGINAL CODE FROM TEMPLATE
-            /*
-             * Acquire each of the four drive motors. To be tolerant of
-             * different naming conventions in the Robot Controller config,
-             * we attempt to fetch several candidate names for each motor.
-             * Update the candidate lists if your team uses different
-             * names (for example, "frontLeft", "lf", "leftFront", etc.).
-             */
 
             // Approximate measurements from the CAD model (in inches).
             // The wheel circumference is 4 inches in diameter multiplied by π.
@@ -283,8 +274,10 @@ public class CustomLinearOp extends LinearOpMode {
              * avoids a null pointer exception later on. Leave WHEELS as null
              *  to signal an initialization failure.
              */
-            telemetry.addLine("ERROR: Failed to initialize wheels: \n"
-                              + e.getMessage());
+            telemetry.addLine(
+                "ERROR: Failed to initialize wheels: \n" + e.getMessage()
+            );
+
         }
 
         /*
@@ -361,6 +354,7 @@ public class CustomLinearOp extends LinearOpMode {
             ? Webcam.Color.RED :
             Webcam.Color.BLUE;
         WEBCAM.setTargetColor(color);
+
     }
 
     /**
